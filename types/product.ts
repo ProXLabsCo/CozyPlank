@@ -8,7 +8,14 @@ export interface ProductWithCategory extends Product {
 }
 
 export interface CartItem {
+  id: string;
   product: Product;
   quantity: number;
   customization?: Record<string, any>;
+}
+
+export interface Cart {
+  items: CartItem[];
+  total: number;
+  itemCount: number;
 }
