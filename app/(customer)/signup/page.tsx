@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Mail, Lock, User, Eye, EyeOff } from 'lucide-react';
+import { signUp } from '@/lib/actions/auth';
 
 export default function SignupPage() {
   const router = useRouter();
@@ -42,21 +43,13 @@ export default function SignupPage() {
     setIsLoading(true);
 
     try {
-      // TODO: Integrate with Supabase Auth
-      // const { data, error } = await supabase.auth.signUp({
-      //   email: formData.email,
-      //   password: formData.password,
-      //   options: {
-      //     data: {
-      //       name: formData.name,
-      //     },
-      //   },
-      // });
+      const result = await signUp(formData.email, formData.password, formData.name);
 
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      if (!result.success) {
+        throw new Error(result.error);
+      }
 
-      // Redirect to login
+      // Redirect to login with success message
       router.push('/login?signup=success');
     } catch (err: any) {
       setError(err.message || 'Failed to create account');
